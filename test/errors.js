@@ -25,6 +25,10 @@ describe('errors', function () {
         var err = new UserError();
         expect(err.stack).to.contain(name);
       });
+      it('uses its name', function () {
+        var err = new UserError();
+        expect(err.name).to.equal(name);
+      });
     });
   });
 });

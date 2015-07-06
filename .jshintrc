@@ -1,4 +1,5 @@
 {
   "-W014": true,
-  "globalstrict": true
+  "globalstrict": true,
+  "esnext": true
 }
