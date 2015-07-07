@@ -1,29 +1,25 @@
 /*global require, exports, applicationContext */
 'use strict';
-var isSystem = Boolean(applicationContext.mount.match(/^\/?_/));
-var _ = require('underscore');
-var joi = require('joi');
-var arangodb = require('org/arangodb');
-var db = arangodb.db;
-var Foxx = require('org/arangodb/foxx');
-var errors = require('./errors');
-var User = Foxx.Model.extend({
+const _ = require('underscore');
+const joi = require('joi');
+const arangodb = require('org/arangodb');
+const db = arangodb.db;
+const Foxx = require('org/arangodb/foxx');
+const errors = require('./errors');
+const User = Foxx.Model.extend({
   schema: {
     user: joi.string().required(),
     authData: joi.object().required(),
     userData: joi.object().required()
   }
 });
-var users = new Foxx.Repository(
-    isSystem
-    ? db._collection('_users')
-    : applicationContext.collection('users'),
-    {model: User}
+const users = new Foxx.Repository(
+  applicationContext.collection('users'),
+  {model: User}
 );
 
-
 function resolve(username) {
-  var user = users.firstExample({user: username});
+  const user = users.firstExample({user: username});
   if (!user.get('_key')) {
     return null;
   }
@@ -43,14 +39,11 @@ function createUser(username, userData, authData) {
   if (!authData) {
     authData = {};
   }
-  if (isSystem && !authData.hasOwnProperty('active')) {
-    authData.active = true;
-  }
 
   if (!username) {
     throw new Error('Must provide username!');
   }
-  var user;
+  let user;
   db._executeTransaction({
     collections: {
       read: [users.collection.name()],
@@ -68,14 +61,11 @@ function createUser(username, userData, authData) {
       users.save(user);
     }
   });
-  if (isSystem) {
-    require('org/arangodb/users').reload();
-  }
   return user;
 }
 
 function getUser(uid) {
-  var user;
+  let user;
   try {
     user = users.byId(uid);
   } catch (err) {
@@ -102,20 +92,13 @@ function deleteUser(uid) {
     }
     throw err;
   }
-  if (isSystem) {
-    require('org/arangodb/users').reload();
-  }
   return null;
 }
 
 _.extend(User.prototype, {
   save: function () {
-    var user = this;
-    users.replace(user);
-    if (isSystem) {
-      require('org/arangodb/users').reload();
-    }
-    return user;
+    users.replace(this);
+    return this;
   },
   delete: function () {
     try {
@@ -125,9 +108,6 @@ _.extend(User.prototype, {
         return false;
       }
       throw e;
-    }
-    if (isSystem) {
-      require('org/arangodb/users').reload();
     }
     return true;
   }

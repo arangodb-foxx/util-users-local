@@ -4,20 +4,30 @@
   "author": "ArangoDB GmbH",
   "version": "1.1.0",
   "license": "Apache License, Version 2.0",
+
   "repository": {
     "type": "git",
     "url": "https://github.com/arangodb/foxx-users.git"
   },
+
   "contributors": [
     {
       "name": "Alan Plum",
       "email": "me@pluma.io"
     }
   ],
+
   "exports": {
     "userStorage": "storage.js"
   },
+
   "defaultDocument": "",
+
   "lib": ".",
-  "setup": "setup.js"
+
+  "scripts": {
+    "setup": "setup.js"
+  },
+
+  "tests": "test/**"
 }
