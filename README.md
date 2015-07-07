@@ -2,6 +2,8 @@
 
 The users app provides a username-based, collection-based user storage JavaScript API that can be used in other Foxx apps.
 
+[![Build status](https://img.shields.io/travis/arangodb/foxx-users.svg)](https://travis-ci.org/arangodb/foxx-users)
+
 ## JavaScript API: userStorage
 
 This app exposes a user storage via a JavaScript API named *userStorage*.
