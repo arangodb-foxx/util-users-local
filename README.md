@@ -111,7 +111,7 @@ Fetches a user with a given *username*.
 
 `userStorage.resolve(username)`
 
-If the username can not be resolved, a *UserNotFound* exception will be thrown instead.
+If the username can not be resolved, `null` will be returned instead.
 
 *Parameter*
 
