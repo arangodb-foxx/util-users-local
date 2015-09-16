@@ -2,7 +2,7 @@
 
 The users app provides a username-based, collection-based user storage JavaScript API that can be used in other Foxx apps.
 
-[![Build status](https://img.shields.io/travis/arangodb/foxx-users.svg)](https://travis-ci.org/arangodb/foxx-users)
+[![Build status](https://img.shields.io/travis/arangodb-foxx/util-users-local.svg)](https://travis-ci.org/arangodb-foxx/util-users-local)
 
 ## JavaScript API: userStorage
 
@@ -16,7 +16,7 @@ First add this app to your dependencies:
 {
   ...
   "dependencies": {
-    "users": "users:^2.0.0"
+    "users": "users-local:^2.0.0"
   }
   ...
 }

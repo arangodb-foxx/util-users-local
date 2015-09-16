@@ -1,12 +1,12 @@
 {
-  "name": "users",
+  "name": "users-local",
   "description": "Username-based user storage for Foxx.",
   "author": "ArangoDB GmbH",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "Apache License, Version 2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arangodb/foxx-users.git"
+    "url": "https://github.com/arangodb-foxx/util-users-local.git"
   },
   "contributors": [
     {
