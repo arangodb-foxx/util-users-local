@@ -2,7 +2,7 @@
   "name": "users-local",
   "description": "Collection-based user storage for Foxx.",
   "author": "ArangoDB GmbH",
-  "version": "3.0.0-dev",
+  "version": "3.0.0",
   "license": "Apache License, Version 2.0",
   "repository": {
     "type": "git",
