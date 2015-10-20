@@ -1,12 +1,12 @@
-# The Users Storage
+# The Local User Storage
 
-The users app provides a username-based, collection-based user storage JavaScript API that can be used in other Foxx apps.
+The users-local utility service provides a username-based, collection-based user storage JavaScript API that can be used in other Foxx apps.
 
 [![Build status](https://img.shields.io/travis/arangodb-foxx/util-users-local.svg)](https://travis-ci.org/arangodb-foxx/util-users-local)
 
-## JavaScript API: userStorage
+## JavaScript API
 
-This app exposes a user storage via a JavaScript API named *userStorage*.
+This app exposes a user storage via a JavaScript API.
 
 **Examples**
 
@@ -16,7 +16,7 @@ First add this app to your dependencies:
 {
   ...
   "dependencies": {
-    "users": "users-local:^2.0.0"
+    "users": "users-local:^3.0.0"
   }
   ...
 }
@@ -25,8 +25,8 @@ First add this app to your dependencies:
 Once you've configured both apps correctly, you can use it like this:
 
 ```js
-var storage = applicationContext.dependencies.users.userStorage;
-var user = storage.resolve(username);
+var users = applicationContext.dependencies.users;
+var user = users.resolve(username);
 ```
 
 ### Exceptions
@@ -35,7 +35,7 @@ var user = storage.resolve(username);
 
 Indicates a user could not be found in the database.
 
-`new userStorage.errors.UserNotFound(userId)`
+`new users.errors.UserNotFound(userId)`
 
 Thrown by the user storages *delete* and *get* methods if passed a user ID that does not exist in the database.
 
@@ -43,9 +43,9 @@ Thrown by the user storages *delete* and *get* methods if passed a user ID that 
 
 ```js
 try {
-    userStorage.get(invalidUserId);
+    users.get(invalidUserId);
 } catch(err) {
-    assertTrue(err instanceof userStorage.errors.UserNotFound);
+    assertTrue(err instanceof users.errors.UserNotFound);
 }
 ```
 
@@ -53,7 +53,7 @@ try {
 
 Indicates a username is already in use.
 
-`new userStorage.errors.UsernameNotAvailable(username)`
+`new users.errors.UsernameNotAvailable(username)`
 
 Thrown by the user storages *create* method if passed a *userData* object with a *username* that is already in use.
 
@@ -61,9 +61,9 @@ Thrown by the user storages *create* method if passed a *userData* object with a
 
 ```js
 try {
-    userStorage.create('alreadyTaken', {some: 'data'});
+    users.create('alreadyTaken', {some: 'data'});
 } catch(err) {
-    assertTrue(err instanceof userStorage.errors.UsernameNotAvailable);
+    assertTrue(err instanceof users.errors.UsernameNotAvailable);
 }
 ```
 
@@ -79,7 +79,7 @@ User objects are instances of a Foxx model with the following attributes:
 
 Creates and saves a new instance of the user model.
 
-`userStorage.create(username, [userData,] [authData])`
+`users.create(username, [userData,] [authData])`
 
 Throws *UsernameNotAvailable* if a user with the given username already exists.
 
@@ -94,7 +94,7 @@ Throws *UsernameNotAvailable* if a user with the given username already exists.
 **Examples**
 
 ```js
-var user = userStorage.create('malaclypse', {hair: 'fuzzy'});
+var user = users.create('malaclypse', {hair: 'fuzzy'});
 assertEqual(user.get('userData').hair, 'fuzzy');
 ```
 
@@ -109,7 +109,7 @@ There are two ways to fetch a user via the user storage API:
 
 Fetches a user with a given *username*.
 
-`userStorage.resolve(username)`
+`users.resolve(username)`
 
 If the username can not be resolved, `null` will be returned instead.
 
@@ -120,7 +120,7 @@ If the username can not be resolved, `null` will be returned instead.
 **Examples**
 
 ```js
-var user = userStorage.resolve('malaclypse');
+var user = users.resolve('malaclypse');
 assertEqual(user.user, 'malaclypse');
 ```
 
@@ -128,7 +128,7 @@ assertEqual(user.user, 'malaclypse');
 
 Fetches a user with a given ID.
 
-`userStorage.get(userId)`
+`users.get(userId)`
 
 Attempts to fetch the user with the given ID from the database. If the user does not exist, an *UserNotFound* exception will be thrown instead.
 
@@ -139,7 +139,7 @@ Attempts to fetch the user with the given ID from the database. If the user does
 **Examples**
 
 ```js
-var user = userStorage.get(userId);
+var user = users.get(userId);
 assertEqual(user.get('_key'), userId);
 ```
 
@@ -154,7 +154,7 @@ There are two ways to delete a user from the database:
 
 Delete a user with a given ID.
 
-`userStorage.delete(userId)`
+`users.delete(userId)`
 
 Attempts to delete the user with the given user ID from the database. If the user does not exist, a *UserNotFound* exception will be thrown. The method always returns *null*.
 
@@ -165,7 +165,7 @@ Attempts to delete the user with the given user ID from the database. If the use
 **Examples**
 
 ```js
-userStorage.delete(userId);
+users.delete(userId);
 ```
 
 #### Tell a user to delete itself
@@ -183,7 +183,7 @@ Returns *false* if the user already didn't exist.
 **Examples**
 
 ```js
-var user = userStorage.get(userId);
+var user = users.get(userId);
 user.delete();
 ```
 
